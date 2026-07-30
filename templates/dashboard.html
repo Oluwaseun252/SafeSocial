@@ -1,0 +1,1158 @@
+{% extends "base.html" %}
+
+{% block title %}SafeSocial Dashboard{% endblock %}
+
+{% block content %}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    .dashboard-container {
+        width: 100%;
+        max-width: 1250px;
+        margin: 0 auto;
+        padding: 32px 20px 60px;
+    }
+
+    /* Hero section */
+
+    .dashboard-hero {
+        display: grid;
+        grid-template-columns: 1.6fr 1fr;
+        gap: 25px;
+        padding: 36px;
+        border-radius: 28px;
+        color: #ffffff;
+        background: linear-gradient(
+            135deg,
+            #4c1d95,
+            #7c3aed,
+            #8b5cf6
+        );
+        box-shadow: 0 20px 45px rgba(76, 29, 149, 0.22);
+    }
+
+    .hero-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 16px;
+        padding: 7px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.15);
+        font-size: 0.85rem;
+        font-weight: 700;
+    }
+
+    .dashboard-hero h1 {
+        margin: 0 0 14px;
+        font-size: clamp(2rem, 4vw, 3.1rem);
+        line-height: 1.1;
+    }
+
+    .dashboard-hero p {
+        max-width: 680px;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.88);
+        font-size: 1rem;
+        line-height: 1.7;
+    }
+
+    .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-top: 24px;
+    }
+
+    .dashboard-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 46px;
+        padding: 11px 18px;
+        border: none;
+        border-radius: 13px;
+        text-decoration: none;
+        font-weight: 800;
+        transition: 0.2s ease;
+        cursor: pointer;
+    }
+
+    .dashboard-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .button-light {
+        color: #5b21b6;
+        background: #ffffff;
+        box-shadow: 0 8px 20px rgba(49, 15, 95, 0.18);
+    }
+
+    .button-glass {
+        color: #ffffff;
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: rgba(255, 255, 255, 0.14);
+    }
+
+    /* Awareness score */
+
+    .hero-score-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        min-height: 260px;
+        padding: 25px;
+        border: 1px solid rgba(255, 255, 255, 0.28);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.12);
+    }
+
+    .awareness-ring {
+        display: grid;
+        width: 160px;
+        height: 160px;
+        place-items: center;
+        border-radius: 50%;
+        background:
+            radial-gradient(
+                closest-side,
+                #6840c2 75%,
+                transparent 76% 99%
+            ),
+            conic-gradient(
+                #ffffff 0%,
+                rgba(255, 255, 255, 0.18) 0%
+            );
+    }
+
+    .awareness-ring-content {
+        text-align: center;
+    }
+
+    .awareness-score {
+        display: block;
+        font-size: 2.3rem;
+        font-weight: 900;
+        line-height: 1;
+    }
+
+    .awareness-label {
+        display: block;
+        margin-top: 7px;
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.78rem;
+        font-weight: 700;
+    }
+
+    .hero-score-card h3 {
+        margin: 18px 0 5px;
+        font-size: 1.05rem;
+    }
+
+    .hero-score-card p {
+        margin: 0;
+        text-align: center;
+        font-size: 0.88rem;
+        line-height: 1.5;
+    }
+
+    /* General sections */
+
+    .dashboard-section {
+        margin-top: 28px;
+    }
+
+    .section-heading {
+        margin-bottom: 16px;
+    }
+
+    .section-heading h2 {
+        margin: 0 0 5px;
+        color: #28163f;
+        font-size: 1.45rem;
+    }
+
+    .section-heading p {
+        margin: 0;
+        color: #766c82;
+    }
+
+    /* Statistics */
+
+    .statistics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .stat-card {
+        position: relative;
+        padding: 22px;
+        border: 1px solid #ece7f5;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 9px 25px rgba(43, 25, 70, 0.07);
+        overflow: hidden;
+    }
+
+    .stat-icon {
+        display: grid;
+        width: 45px;
+        height: 45px;
+        margin-bottom: 17px;
+        place-items: center;
+        border-radius: 14px;
+        color: #6d28d9;
+        background: #f0e8ff;
+        font-size: 1.2rem;
+    }
+
+    .stat-title {
+        color: #7b7285;
+        font-size: 0.84rem;
+        font-weight: 700;
+    }
+
+    .stat-value {
+        display: block;
+        margin-top: 7px;
+        color: #28163f;
+        font-size: 1.55rem;
+        font-weight: 900;
+    }
+
+    .stat-description {
+        margin: 7px 0 0;
+        color: #93899e;
+        font-size: 0.82rem;
+        line-height: 1.45;
+    }
+
+    /* Dashboard panels */
+
+    .dashboard-grid {
+        display: grid;
+        grid-template-columns: 1.35fr 0.85fr;
+        gap: 22px;
+    }
+
+    .dashboard-panel {
+        padding: 26px;
+        border: 1px solid #ece7f5;
+        border-radius: 23px;
+        background: #ffffff;
+        box-shadow: 0 10px 30px rgba(43, 25, 70, 0.07);
+    }
+
+    .panel-heading {
+        margin-bottom: 21px;
+    }
+
+    .panel-heading h3 {
+        margin: 0 0 4px;
+        color: #28163f;
+        font-size: 1.15rem;
+    }
+
+    .panel-heading span {
+        color: #887d94;
+        font-size: 0.83rem;
+    }
+
+    /* Recommendation */
+
+    .recommendation-card {
+        padding: 24px;
+        border-radius: 20px;
+        color: #ffffff;
+        background: linear-gradient(
+            135deg,
+            #5b21b6,
+            #7c3aed
+        );
+    }
+
+    .recommendation-label {
+        display: inline-block;
+        margin-bottom: 11px;
+        color: #ddd0ff;
+        font-size: 0.78rem;
+        font-weight: 800;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+    }
+
+    .recommendation-card h3 {
+        margin: 0 0 10px;
+        font-size: 1.4rem;
+    }
+
+    .recommendation-card p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.86);
+        line-height: 1.65;
+    }
+
+    .recommendation-card .dashboard-button {
+        margin-top: 19px;
+    }
+
+    /* Progress bars */
+
+    .progress-group {
+        margin-top: 23px;
+    }
+
+    .progress-header {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin-bottom: 9px;
+        color: #4a3b57;
+        font-size: 0.88rem;
+        font-weight: 800;
+    }
+
+    .progress-track {
+        width: 100%;
+        height: 11px;
+        border-radius: 999px;
+        background: #eee9f5;
+        overflow: hidden;
+    }
+
+    .progress-fill {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(
+            90deg,
+            #6d28d9,
+            #9b6ef3
+        );
+        transition: width 0.6s ease;
+    }
+
+    .progress-note {
+        margin: 8px 0 0;
+        color: #91869b;
+        font-size: 0.8rem;
+    }
+
+    /* Safety status */
+
+    .status-card {
+        padding: 21px;
+        border: 1px solid #e8ddff;
+        border-radius: 18px;
+        background: #faf8ff;
+    }
+
+    .status-card h4 {
+        margin: 0 0 8px;
+        color: #4c1d95;
+        font-size: 1.05rem;
+    }
+
+    .status-card p {
+        margin: 0;
+        color: #766b81;
+        line-height: 1.6;
+    }
+
+    /* Category results */
+
+    .category-list {
+        display: grid;
+        gap: 13px;
+    }
+
+    .category-item {
+        padding: 16px;
+        border: 1px solid #eee8f5;
+        border-radius: 16px;
+        background: #fcfbfe;
+    }
+
+    .category-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 12px;
+        margin-bottom: 9px;
+    }
+
+    .category-name {
+        color: #3d2b4d;
+        font-weight: 800;
+    }
+
+    .category-score {
+        color: #6d28d9;
+        font-weight: 900;
+    }
+
+    .category-progress {
+        width: 100%;
+        height: 8px;
+        border-radius: 999px;
+        background: #ebe5f1;
+        overflow: hidden;
+    }
+
+    .category-progress-fill {
+        width: 0;
+        height: 100%;
+        border-radius: inherit;
+        background: linear-gradient(
+            90deg,
+            #7c3aed,
+            #a78bfa
+        );
+        transition: width 0.6s ease;
+    }
+
+    /* Empty state */
+
+    .empty-state {
+        padding: 30px 18px;
+        border: 2px dashed #ddd3eb;
+        border-radius: 18px;
+        text-align: center;
+        background: #fcfbfe;
+    }
+
+    .empty-state h4 {
+        margin: 0 0 8px;
+        color: #4c3760;
+    }
+
+    .empty-state p {
+        margin: 0 0 17px;
+        color: #8e8498;
+    }
+
+    /* Activity */
+
+    .activity-list {
+        display: grid;
+        gap: 4px;
+    }
+
+    .activity-item {
+        display: grid;
+        grid-template-columns: 43px 1fr auto;
+        gap: 13px;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid #eee9f3;
+    }
+
+    .activity-item:last-child {
+        border-bottom: none;
+    }
+
+    .activity-icon {
+        display: grid;
+        width: 43px;
+        height: 43px;
+        place-items: center;
+        border-radius: 14px;
+        color: #6d28d9;
+        background: #f1eaff;
+        font-weight: 900;
+    }
+
+    .activity-content strong {
+        display: block;
+        color: #3b294b;
+    }
+
+    .activity-content span {
+        display: block;
+        margin-top: 4px;
+        color: #91869b;
+        font-size: 0.8rem;
+    }
+
+    .activity-score {
+        color: #6d28d9;
+        font-weight: 900;
+    }
+
+    /* Action cards */
+
+    .action-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 17px;
+    }
+
+    .action-card {
+        display: flex;
+        flex-direction: column;
+        padding: 23px;
+        border: 1px solid #ece6f4;
+        border-radius: 21px;
+        color: inherit;
+        text-decoration: none;
+        background: #ffffff;
+        box-shadow: 0 8px 24px rgba(43, 25, 70, 0.06);
+        transition: 0.2s ease;
+    }
+
+    .action-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 14px 32px rgba(43, 25, 70, 0.1);
+    }
+
+    .action-card-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 17px;
+        place-items: center;
+        border-radius: 15px;
+        color: #ffffff;
+        background: linear-gradient(
+            135deg,
+            #6d28d9,
+            #9b6ef3
+        );
+        font-size: 1.25rem;
+    }
+
+    .action-card h3 {
+        margin: 0 0 8px;
+        color: #321e47;
+        font-size: 1.06rem;
+    }
+
+    .action-card p {
+        flex-grow: 1;
+        margin: 0;
+        color: #84798f;
+        line-height: 1.55;
+    }
+
+    .action-link {
+        margin-top: 17px;
+        color: #6d28d9;
+        font-size: 0.88rem;
+        font-weight: 900;
+    }
+
+    /* Responsive design */
+
+    @media (max-width: 1000px) {
+        .dashboard-hero,
+        .dashboard-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .statistics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .action-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 620px) {
+        .dashboard-container {
+            padding: 20px 14px 45px;
+        }
+
+        .dashboard-hero {
+            padding: 25px 20px;
+        }
+
+        .statistics-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .dashboard-panel {
+            padding: 20px;
+        }
+
+        .hero-actions {
+            flex-direction: column;
+        }
+
+        .dashboard-button {
+            width: 100%;
+        }
+
+        .activity-item {
+            grid-template-columns: 42px 1fr;
+        }
+
+        .activity-score {
+            grid-column: 2;
+        }
+    }
+</style>
+
+<div class="dashboard-container">
+
+    <!-- Hero section -->
+
+    <section class="dashboard-hero">
+        <div>
+            <div class="hero-label">
+                ✨ AI-powered safety dashboard
+            </div>
+
+            <h1>
+                Welcome, {{ current_user.username }}
+            </h1>
+
+            <p>
+                Track your social media safety awareness, receive
+                personalised recommendations and continue developing
+                safer online decision-making skills.
+            </p>
+
+            <div class="hero-actions">
+                <a
+                    href="{{ url_for('assessment') }}"
+                    class="dashboard-button button-light"
+                >
+                    Start AI assessment
+                </a>
+
+                <a
+                    href="{{ url_for('learning_modules') }}"
+                    class="dashboard-button button-glass"
+                >
+                    Explore learning modules
+                </a>
+            </div>
+        </div>
+
+        <div class="hero-score-card">
+            <div
+                class="awareness-ring"
+                data-score="{{ overall_awareness_score | default(0) }}"
+            >
+                <div class="awareness-ring-content">
+                    <span class="awareness-score">
+                        {{ overall_awareness_score | default(0) }}%
+                    </span>
+
+                    <span class="awareness-label">
+                        Awareness score
+                    </span>
+                </div>
+            </div>
+
+            <h3>
+                {{ safety_status | default("Assessment not completed") }}
+            </h3>
+
+            <p>
+                Based on your latest assessment results.
+            </p>
+        </div>
+    </section>
+
+    <!-- Safety overview -->
+
+    <section class="dashboard-section">
+        <div class="section-heading">
+            <h2>Your safety overview</h2>
+
+            <p>
+                A summary of your learning and assessment progress.
+            </p>
+        </div>
+
+        <div class="statistics-grid">
+
+            <article class="stat-card">
+                <div class="stat-icon">⚠</div>
+
+                <span class="stat-title">
+                    Highest risk
+                </span>
+
+                <strong class="stat-value">
+                    {{ highest_risk_score | default(0) }}%
+                </strong>
+
+                <p class="stat-description">
+                    {% if recommended_category %}
+                        {{ recommended_category }}
+                    {% else %}
+                        Complete an assessment
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">🏆</div>
+
+                <span class="stat-title">
+                    Strongest category
+                </span>
+
+                <strong class="stat-value">
+                    {{ strongest_score | default(0) }}%
+                </strong>
+
+                <p class="stat-description">
+                    {% if strongest_category %}
+                        {{ strongest_category }}
+                    {% else %}
+                        No result available
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">⭐</div>
+
+                <span class="stat-title">
+                    Current XP
+                </span>
+
+                <strong class="stat-value">
+                    {{ current_xp | default(0) }}
+                </strong>
+
+                <p class="stat-description">
+                    Level {{ current_level | default(1) }}
+                </p>
+            </article>
+
+            <article class="stat-card">
+                <div class="stat-icon">✓</div>
+
+                <span class="stat-title">
+                    Completed modules
+                </span>
+
+                <strong class="stat-value">
+                    {{ completed_modules | default(0) }}
+                </strong>
+
+                <p class="stat-description">
+                    Keep building your safety skills.
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Recommendation and category performance -->
+
+    <section class="dashboard-section dashboard-grid">
+
+        <div class="dashboard-panel">
+            <div class="panel-heading">
+                <h3>AI recommendation</h3>
+
+                <span>
+                    Personalised using your assessment results
+                </span>
+            </div>
+
+            <div class="recommendation-card">
+                <span class="recommendation-label">
+                    Recommended next step
+                </span>
+
+                <h3>
+                    {% if recommended_category %}
+                        Strengthen {{ recommended_category }}
+                    {% else %}
+                        Discover your safety profile
+                    {% endif %}
+                </h3>
+
+                <p>
+                    {{ ai_recommendation | default(
+                        "Complete an assessment to receive a personalised recommendation."
+                    ) }}
+                </p>
+
+                {% if recommended_category %}
+                    <a
+                        href="{{ url_for('learning_module', category=recommended_category) }}"
+                        class="dashboard-button button-light"
+                    >
+                        Start recommended module
+                    </a>
+                {% else %}
+                    <a
+                        href="{{ url_for('assessment') }}"
+                        class="dashboard-button button-light"
+                    >
+                        Complete assessment
+                    </a>
+                {% endif %}
+            </div>
+
+            <div class="progress-group">
+                <div class="progress-header">
+                    <span>Learning journey</span>
+
+                    <span>
+                        {{ journey_progress | default(0) }}%
+                    </span>
+                </div>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        data-progress="{{ journey_progress | default(0) }}"
+                    ></div>
+                </div>
+
+                <p class="progress-note">
+                    {{ journey_steps_completed | default(0) }}
+                    of 4 key journey stages completed.
+                </p>
+            </div>
+
+            <div class="progress-group">
+                <div class="progress-header">
+                    <span>
+                        Level {{ current_level | default(1) }} progress
+                    </span>
+
+                    <span>
+                        {{ xp_in_current_level | default(0) }}/100 XP
+                    </span>
+                </div>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        data-progress="{{ xp_progress_percentage | default(0) }}"
+                    ></div>
+                </div>
+
+                <p class="progress-note">
+                    {{ xp_to_next_level | default(100) }}
+                    XP required to reach your next level.
+                </p>
+            </div>
+
+            <div class="progress-group">
+                <div class="progress-header">
+                    <span>Achievements</span>
+
+                    <span>
+                        {{ unlocked_achievements | default(0) }}/
+                        {{ total_achievements | default(0) }}
+                    </span>
+                </div>
+
+                <div class="progress-track">
+                    <div
+                        class="progress-fill"
+                        data-progress="{{ achievement_progress | default(0) }}"
+                    ></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="dashboard-panel">
+            <div class="panel-heading">
+                <h3>Safety status</h3>
+
+                <span>
+                    Your current awareness position
+                </span>
+            </div>
+
+            <div class="status-card">
+                <h4>
+                    {{ safety_status | default("Assessment not completed") }}
+                </h4>
+
+                <p>
+                    {{ safety_status_message | default(
+                        "Complete an assessment to discover your current social media safety awareness level."
+                    ) }}
+                </p>
+            </div>
+
+            <div class="panel-heading" style="margin-top: 26px;">
+                <h3>Category performance</h3>
+
+                <span>
+                    {{ total_categories | default(0) }}
+                    categories assessed
+                </span>
+            </div>
+
+            {% if category_scores %}
+                <div class="category-list">
+
+                    {% for category, result in category_scores.items() %}
+                        <div class="category-item">
+                            <div class="category-row">
+                                <span class="category-name">
+                                    {{ category }}
+                                </span>
+
+                                <span class="category-score">
+                                    {{ result.percentage | round | int }}%
+                                </span>
+                            </div>
+
+                            <div class="category-progress">
+                                <div
+                                    class="category-progress-fill"
+                                    data-progress="{{ result.percentage }}"
+                                ></div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h4>No category results yet</h4>
+
+                    <p>
+                        Complete your first assessment to view your
+                        category performance.
+                    </p>
+
+                    <a
+                        href="{{ url_for('assessment') }}"
+                        class="dashboard-button button-light"
+                    >
+                        Start assessment
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+
+    </section>
+
+    <!-- Recent activity and evaluation -->
+
+    <section class="dashboard-section dashboard-grid">
+
+        <div class="dashboard-panel">
+            <div class="panel-heading">
+                <h3>Recent assessment activity</h3>
+
+                <span>
+                    Your three most recent assessment results
+                </span>
+            </div>
+
+            {% if recent_activity %}
+                <div class="activity-list">
+
+                    {% for result in recent_activity %}
+                        <div class="activity-item">
+                            <div class="activity-icon">
+                                {{ loop.index }}
+                            </div>
+
+                            <div class="activity-content">
+                                <strong>
+                                    {{ result.category }}
+                                </strong>
+
+                                <span>
+                                    Assessment completed
+
+                                    {% if result.date_completed %}
+                                        on
+                                        {{ result.date_completed.strftime("%d %B %Y") }}
+                                    {% endif %}
+                                </span>
+                            </div>
+
+                            <span class="activity-score">
+                                {{ result.percentage | round | int }}%
+                            </span>
+                        </div>
+                    {% endfor %}
+
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <h4>No recent activity</h4>
+
+                    <p>
+                        Your assessment history will appear here.
+                    </p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="dashboard-panel">
+            <div class="panel-heading">
+                <h3>User evaluation</h3>
+
+                <span>
+                    Help improve SafeSocial
+                </span>
+            </div>
+
+            {% if evaluation %}
+                <div class="status-card">
+                    <h4>Evaluation completed</h4>
+
+                    <p>
+                        Thank you for sharing your experience.
+                        You can update your feedback when required.
+                    </p>
+                </div>
+
+                <a
+                    href="{{ url_for('user_evaluation') }}"
+                    class="dashboard-button button-light"
+                    style="margin-top: 16px;"
+                >
+                    Update evaluation
+                </a>
+            {% else %}
+                <div class="status-card">
+                    <h4>Evaluation not completed</h4>
+
+                    <p>
+                        Share your experience after using the
+                        assessment and learning modules.
+                    </p>
+                </div>
+
+                <a
+                    href="{{ url_for('user_evaluation') }}"
+                    class="dashboard-button button-light"
+                    style="margin-top: 16px;"
+                >
+                    Complete evaluation
+                </a>
+            {% endif %}
+        </div>
+
+    </section>
+
+    <!-- Continue journey -->
+
+    <section class="dashboard-section">
+        <div class="section-heading">
+            <h2>Continue your journey</h2>
+
+            <p>
+                Choose the next action in your SafeSocial learning journey.
+            </p>
+        </div>
+
+        <div class="action-grid">
+
+            <a
+                href="{{ url_for('assessment') }}"
+                class="action-card"
+            >
+                <div class="action-card-icon">
+                    🧠
+                </div>
+
+                <h3>AI risk assessment</h3>
+
+                <p>
+                    Test your understanding of online risks and receive
+                    a personalised assessment report.
+                </p>
+
+                <span class="action-link">
+                    Start assessment →
+                </span>
+            </a>
+
+            <a
+                href="{{ url_for('learning_modules') }}"
+                class="action-card"
+            >
+                <div class="action-card-icon">
+                    📘
+                </div>
+
+                <h3>Learning modules</h3>
+
+                <p>
+                    Explore practical scenarios and develop safer
+                    social media decision-making skills.
+                </p>
+
+                <span class="action-link">
+                    Browse modules →
+                </span>
+            </a>
+
+            <a
+                href="{{ url_for('user_evaluation') }}"
+                class="action-card"
+            >
+                <div class="action-card-icon">
+                    💬
+                </div>
+
+                <h3>Evaluate SafeSocial</h3>
+
+                <p>
+                    Share feedback about the clarity, usefulness
+                    and effectiveness of your learning experience.
+                </p>
+
+                <span class="action-link">
+                    Give feedback →
+                </span>
+            </a>
+
+        </div>
+    </section>
+
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const awarenessRing = document.querySelector(".awareness-ring");
+
+        if (awarenessRing) {
+            let score = Number(awarenessRing.dataset.score) || 0;
+
+            score = Math.max(0, Math.min(score, 100));
+
+            awarenessRing.style.background =
+                "radial-gradient(" +
+                "closest-side, " +
+                "#6840c2 75%, " +
+                "transparent 76% 99%" +
+                "), " +
+                "conic-gradient(" +
+                "#ffffff " + score + "%, " +
+                "rgba(255, 255, 255, 0.18) " + score + "%" +
+                ")";
+        }
+
+        const progressBars = document.querySelectorAll(
+            ".progress-fill, .category-progress-fill"
+        );
+
+        progressBars.forEach(function (progressBar) {
+            let progress = Number(progressBar.dataset.progress) || 0;
+
+            progress = Math.max(0, Math.min(progress, 100));
+
+            progressBar.style.width = progress + "%";
+        });
+    });
+</script>
+
+{% endblock %}

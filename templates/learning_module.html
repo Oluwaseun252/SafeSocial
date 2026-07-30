@@ -1,0 +1,412 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ module.title }} | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<section class="module-section">
+
+    <div class="module-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="module-hero">
+
+            <div class="module-hero-content">
+
+                <p class="dashboard-label">
+                    {{ module.icon }} Personalised awareness challenge
+                </p>
+
+                <h1>
+                    {{ module.title }}
+                </h1>
+
+                <p>
+                    {{ module.introduction }}
+                </p>
+
+                <div class="module-meta-row">
+
+                    <span class="module-category-badge">
+                        {{ category }}
+                    </span>
+
+                    <span class="module-xp-badge">
+                        ⭐ Earn {{ module.xp_reward }} XP
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="module-hero-icon">
+                {{ module.icon }}
+            </div>
+
+        </div>
+
+        <div class="module-learning-path">
+
+            <div class="learning-path-step active">
+                <span>1</span>
+                <strong>Understand</strong>
+            </div>
+
+            <div class="learning-path-line"></div>
+
+            <div class="learning-path-step active">
+                <span>2</span>
+                <strong>Recognise</strong>
+            </div>
+
+            <div class="learning-path-line"></div>
+
+            <div class="learning-path-step">
+                <span>3</span>
+                <strong>Respond</strong>
+            </div>
+
+            <div class="learning-path-line"></div>
+
+            <div class="learning-path-step">
+                <span>4</span>
+                <strong>Reflect</strong>
+            </div>
+
+        </div>
+
+        <div class="module-content-grid">
+
+            <article class="module-card module-example-card">
+
+                <div class="module-card-heading">
+
+                    <div class="module-card-icon">
+                        📱
+                    </div>
+
+                    <div>
+                        <p class="module-section-label">
+                            Social media situation
+                        </p>
+
+                        <h2>
+                            Real-Life Example
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="social-example-box">
+
+                    <div class="social-example-header">
+
+                        <div class="social-profile-icon">
+                            👤
+                        </div>
+
+                        <div>
+                            <strong>
+                                Social media user
+                            </strong>
+
+                            <span>
+                                Just now
+                            </span>
+                        </div>
+
+                    </div>
+
+                    <p>
+                        {{ module.real_example }}
+                    </p>
+
+                </div>
+
+            </article>
+
+            <article class="module-card module-tips-card">
+
+                <div class="module-card-heading">
+
+                    <div class="module-card-icon">
+                        🛡️
+                    </div>
+
+                    <div>
+                        <p class="module-section-label">
+                            Warning signs
+                        </p>
+
+                        <h2>
+                            Key Things to Remember
+                        </h2>
+                    </div>
+
+                </div>
+
+                <ul class="module-tips">
+
+                    {% for tip in module.tips %}
+
+                        <li>
+
+                            <span class="tip-check-icon">
+                                ✓
+                            </span>
+
+                            <span>
+                                {{ tip }}
+                            </span>
+
+                        </li>
+
+                    {% endfor %}
+
+                </ul>
+
+            </article>
+
+        </div>
+
+        <article class="module-card interactive-challenge-card">
+
+            <div class="challenge-card-header">
+
+                <div class="module-card-heading">
+
+                    <div class="module-card-icon">
+                        🎯
+                    </div>
+
+                    <div>
+                        <p class="module-section-label">
+                            Decision challenge
+                        </p>
+
+                        <h2>
+                            What Would You Do?
+                        </h2>
+                    </div>
+
+                </div>
+
+                <span class="challenge-reward">
+                    +{{ module.xp_reward }} XP
+                </span>
+
+            </div>
+
+            <div class="scenario-question-box">
+
+                <span class="scenario-question-label">
+                    Scenario
+                </span>
+
+                <p>
+                    {{ module.scenario.question }}
+                </p>
+
+            </div>
+
+            <form
+                method="POST"
+                action="{{ url_for('learning_module', category=category) }}"
+                class="module-scenario-form"
+            >
+
+                <div class="module-answer-list">
+
+                    {% for option in module.scenario.options %}
+
+                        <label class="module-answer-option">
+
+                            <input
+                                type="radio"
+                                name="answer"
+                                value="{{ loop.index0 }}"
+                                required
+                                {% if selected_option == loop.index0 %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="module-answer-letter">
+                                {{ "ABCDEFGHIJKLMNOPQRSTUVWXYZ"[loop.index0] }}
+                            </span>
+
+                            <span class="module-answer-text">
+                                {{ option }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="primary-button assessment-button"
+                >
+                    Check My Decision
+                </button>
+
+            </form>
+
+            {% if feedback %}
+
+                <div
+                    class="
+                        module-feedback
+                        {% if answer_correct %}
+                            feedback-correct
+                        {% else %}
+                            feedback-incorrect
+                        {% endif %}
+                    "
+                >
+
+                    <div class="feedback-heading">
+
+                        <div class="feedback-icon">
+
+                            {% if answer_correct %}
+                                ✅
+                            {% else %}
+                                💡
+                            {% endif %}
+
+                        </div>
+
+                        <div>
+
+                            {% if answer_correct %}
+                                <p class="feedback-label">
+                                    Safe decision
+                                </p>
+
+                                <h3>
+                                    Excellent Choice
+                                </h3>
+                            {% else %}
+                                <p class="feedback-label">
+                                    Learning opportunity
+                                </p>
+
+                                <h3>
+                                    Not Quite — Try Again
+                                </h3>
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                    <p class="feedback-text">
+                        {{ feedback }}
+                    </p>
+
+                    {% if answer_correct %}
+
+                        <div class="xp-reward-box">
+
+                            <span class="xp-reward-icon">
+                                ⭐
+                            </span>
+
+                            <div>
+                                <strong>
+                                    +{{ module.xp_reward }} XP earned
+                                </strong>
+
+                                <p>
+                                    You successfully completed this awareness challenge.
+                                </p>
+                            </div>
+
+                        </div>
+
+                        <a
+                            href="{{ url_for(
+                                'behaviour_reflection',
+                                category=category
+                            ) }}"
+                            class="primary-button reflection-button"
+                        >
+                            Continue to Reflection →
+                        </a>
+
+                    {% else %}
+
+                        <p class="retry-guidance">
+                            Review the warning signs above, then choose the safest response.
+                        </p>
+
+                    {% endif %}
+
+                </div>
+
+            {% endif %}
+
+        </article>
+
+        <article class="module-card module-highlight">
+
+            <div class="module-card-heading">
+
+                <div class="module-card-icon">
+                    💡
+                </div>
+
+                <div>
+                    <p class="module-section-label">
+                        Safety insight
+                    </p>
+
+                    <h2>
+                        Did You Know?
+                    </h2>
+                </div>
+
+            </div>
+
+            <p>
+                {{ module.did_you_know }}
+            </p>
+
+        </article>
+
+        <div class="module-bottom-actions">
+
+            <a
+                href="{{ url_for('dashboard') }}"
+                class="secondary-button"
+            >
+                ← Return to Safety Hub
+            </a>
+
+            {% if not answer_correct %}
+                <span class="module-completion-message">
+                    Complete the decision challenge to unlock reflection.
+                </span>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

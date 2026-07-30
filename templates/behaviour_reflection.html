@@ -1,0 +1,363 @@
+{% extends "base.html" %}
+
+{% block title %}
+Learning Reflection | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<section class="reflection-section">
+
+    <div class="reflection-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for message_category, message in messages %}
+                    <div class="message {{ message_category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="reflection-hero">
+
+            <div class="reflection-hero-content">
+
+                <p class="dashboard-label">
+                    {{ module.icon }} Behaviour-change reflection
+                </p>
+
+                <h1>
+                    Reflect on Your Learning
+                </h1>
+
+                <p>
+                    You completed the {{ category }} awareness challenge.
+                    Now think about how this learning could influence the
+                    decisions you make on social media.
+                </p>
+
+                <div class="reflection-category-row">
+
+                    <span class="reflection-category-badge">
+                        {{ category }}
+                    </span>
+
+                    <span class="reflection-stage-badge">
+                        Step 4 of 4: Reflect
+                    </span>
+
+                </div>
+
+            </div>
+
+            <div class="reflection-hero-icon">
+                🧠
+            </div>
+
+        </div>
+
+        <div class="reflection-learning-path">
+
+            <div class="reflection-path-step completed">
+                <span>✓</span>
+                <strong>Understand</strong>
+            </div>
+
+            <div class="reflection-path-line completed"></div>
+
+            <div class="reflection-path-step completed">
+                <span>✓</span>
+                <strong>Recognise</strong>
+            </div>
+
+            <div class="reflection-path-line completed"></div>
+
+            <div class="reflection-path-step completed">
+                <span>✓</span>
+                <strong>Respond</strong>
+            </div>
+
+            <div class="reflection-path-line completed"></div>
+
+            <div class="reflection-path-step active">
+                <span>4</span>
+                <strong>Reflect</strong>
+            </div>
+
+        </div>
+
+        <div class="reflection-introduction-card">
+
+            <div class="reflection-introduction-icon">
+                💭
+            </div>
+
+            <div>
+                <h2>
+                    Why reflection matters
+                </h2>
+
+                <p>
+                    Recognising a risk is important, but applying what you have
+                    learned in a real situation is what supports safer online
+                    behaviour.
+                </p>
+            </div>
+
+        </div>
+
+        <form
+            method="POST"
+            action="{{ url_for('behaviour_reflection', category=category) }}"
+            class="reflection-form"
+        >
+
+            <fieldset class="reflection-question-card">
+
+                <div class="reflection-question-heading">
+
+                    <span class="reflection-question-number">
+                        1
+                    </span>
+
+                    <div>
+                        <p class="reflection-question-label">
+                            Confidence
+                        </p>
+
+                        <legend>
+                            After completing this challenge, I feel more
+                            confident recognising this type of online risk.
+                        </legend>
+                    </div>
+
+                </div>
+
+                <div class="reflection-scale">
+
+                    {% for option in [
+                        "Strongly agree",
+                        "Agree",
+                        "Neutral",
+                        "Disagree",
+                        "Strongly disagree"
+                    ] %}
+
+                        <label class="reflection-option">
+
+                            <input
+                                type="radio"
+                                name="confidence"
+                                value="{{ option }}"
+                                required
+                                {% if existing_reflection
+                                    and existing_reflection.confidence == option %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="reflection-option-marker">
+                                {% if option == "Strongly agree" %}
+                                    😄
+                                {% elif option == "Agree" %}
+                                    🙂
+                                {% elif option == "Neutral" %}
+                                    😐
+                                {% elif option == "Disagree" %}
+                                    🙁
+                                {% else %}
+                                    😕
+                                {% endif %}
+                            </span>
+
+                            <span class="reflection-option-text">
+                                {{ option }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </fieldset>
+
+            <fieldset class="reflection-question-card">
+
+                <div class="reflection-question-heading">
+
+                    <span class="reflection-question-number">
+                        2
+                    </span>
+
+                    <div>
+                        <p class="reflection-question-label">
+                            Future behaviour
+                        </p>
+
+                        <legend>
+                            If I encounter a similar situation online, I am
+                            more likely to make a safer decision.
+                        </legend>
+                    </div>
+
+                </div>
+
+                <div class="reflection-scale">
+
+                    {% for option in [
+                        "Strongly agree",
+                        "Agree",
+                        "Neutral",
+                        "Disagree",
+                        "Strongly disagree"
+                    ] %}
+
+                        <label class="reflection-option">
+
+                            <input
+                                type="radio"
+                                name="safer_decision"
+                                value="{{ option }}"
+                                required
+                                {% if existing_reflection
+                                    and existing_reflection.safer_decision == option %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="reflection-option-marker">
+                                {% if option == "Strongly agree" %}
+                                    🛡️
+                                {% elif option == "Agree" %}
+                                    👍
+                                {% elif option == "Neutral" %}
+                                    🤔
+                                {% elif option == "Disagree" %}
+                                    ⚠️
+                                {% else %}
+                                    ❓
+                                {% endif %}
+                            </span>
+
+                            <span class="reflection-option-text">
+                                {{ option }}
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </fieldset>
+
+            <section class="reflection-question-card">
+
+                <div class="reflection-question-heading">
+
+                    <span class="reflection-question-number">
+                        3
+                    </span>
+
+                    <div>
+                        <p class="reflection-question-label">
+                            Key learning
+                        </p>
+
+                        <h2>
+                            What is the most important thing you learned?
+                        </h2>
+                    </div>
+
+                </div>
+
+                <p class="reflection-guidance">
+                    Describe one warning sign, safety action or decision that
+                    you will remember from this challenge.
+                </p>
+
+                <label
+                    for="key_learning"
+                    class="visually-hidden"
+                >
+                    Most important learning
+                </label>
+
+                <textarea
+                    id="key_learning"
+                    name="key_learning"
+                    rows="6"
+                    maxlength="500"
+                    required
+                    placeholder="For example: I learned that I should verify who a person is before sharing personal information..."
+                >{% if existing_reflection %}{{ existing_reflection.key_learning }}{% endif %}</textarea>
+
+                <div class="reflection-textarea-footer">
+
+                    <span>
+                        Write a short and honest reflection.
+                    </span>
+
+                    <span>
+                        Maximum 500 characters
+                    </span>
+
+                </div>
+
+            </section>
+
+            <article class="safety-commitment-card">
+
+                <div class="safety-commitment-icon">
+                    🤝
+                </div>
+
+                <div>
+                    <h2>
+                        Your safety commitment
+                    </h2>
+
+                    <p>
+                        By saving this reflection, you are committing to pause,
+                        assess the situation and choose a safer response when
+                        you encounter a similar risk online.
+                    </p>
+                </div>
+
+            </article>
+
+            <div class="reflection-form-actions">
+
+                <a
+                    href="{{ url_for(
+                        'learning_module',
+                        category=category
+                    ) }}"
+                    class="secondary-button"
+                >
+                    ← Review Challenge
+                </a>
+
+                <button
+                    type="submit"
+                    class="primary-button reflection-save-button"
+                >
+                    {% if existing_reflection %}
+                        Update Reflection
+                    {% else %}
+                        Save Reflection and Complete Challenge
+                    {% endif %}
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}

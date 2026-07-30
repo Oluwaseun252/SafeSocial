@@ -1,0 +1,877 @@
+{% extends "base.html" %}
+
+{% block title %}
+SafeSocial | Learn Smart. Stay Safe.
+{% endblock %}
+
+{% block content %}
+
+<!-- ======================================================
+     HERO SECTION
+     ====================================================== -->
+
+<section class="home-hero">
+
+    <div class="home-hero-container">
+
+        <div class="home-hero-content">
+
+            <div class="home-hero-badge">
+                <i class="bi bi-stars"></i>
+                AI-powered online safety learning
+            </div>
+
+            <h1>
+                Become a
+                <span>social media hero</span>
+            </h1>
+
+            <p class="home-hero-description">
+                Learn how to recognise scams, protect your privacy,
+                respond to cyberbullying and make smarter decisions
+                online through personalised challenges and realistic
+                social media scenarios.
+            </p>
+
+            <div class="home-hero-actions">
+
+                {% if current_user.is_authenticated %}
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="primary-button home-primary-button"
+                    >
+                        <i class="bi bi-grid-1x2-fill"></i>
+                        Go to Your Safety Hub
+                    </a>
+
+                    <a
+                        href="{{ url_for('learning_modules') }}"
+                        class="secondary-button home-secondary-button"
+                    >
+                        <i class="bi bi-controller"></i>
+                        Explore Challenges
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="primary-button home-primary-button"
+                    >
+                        <i class="bi bi-rocket-takeoff-fill"></i>
+                        Start Your Journey
+                    </a>
+
+                    <a
+                        href="#features"
+                        class="secondary-button home-secondary-button"
+                    >
+                        <i class="bi bi-play-circle"></i>
+                        Explore Features
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+            <div class="home-trust-row">
+
+                <div class="home-trust-item">
+                    <span>
+                        <i class="bi bi-check-lg"></i>
+                    </span>
+                    Free to explore
+                </div>
+
+                <div class="home-trust-item">
+                    <span>
+                        <i class="bi bi-check-lg"></i>
+                    </span>
+                    Personalised learning
+                </div>
+
+                <div class="home-trust-item">
+                    <span>
+                        <i class="bi bi-check-lg"></i>
+                    </span>
+                    Teen-friendly challenges
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Hero visual -->
+        <div class="home-hero-visual" aria-hidden="true">
+
+            <div class="floating-icon floating-icon-shield">
+                <i class="bi bi-shield-check"></i>
+            </div>
+
+            <div class="floating-icon floating-icon-heart">
+                <i class="bi bi-heart-fill"></i>
+            </div>
+
+            <div class="floating-icon floating-icon-chat">
+                <i class="bi bi-chat-dots-fill"></i>
+            </div>
+
+            <div class="floating-icon floating-icon-star">
+                <i class="bi bi-star-fill"></i>
+            </div>
+
+            <div class="hero-phone">
+
+                <div class="hero-phone-top">
+
+                    <div class="phone-profile">
+
+                        <div class="phone-avatar">
+                            <i class="bi bi-person-fill"></i>
+                        </div>
+
+                        <div>
+                            <strong>Your Safety Hub</strong>
+                            <span>Keep growing!</span>
+                        </div>
+
+                    </div>
+
+                    <div class="phone-notification">
+                        <i class="bi bi-bell-fill"></i>
+                    </div>
+
+                </div>
+
+                <div class="phone-score-card">
+
+                    <div class="phone-score-heading">
+                        <span>Safety score</span>
+                        <strong>72%</strong>
+                    </div>
+
+                    <div class="phone-progress-track">
+                        <div class="phone-progress-fill"></div>
+                    </div>
+
+                    <p>
+                        You are becoming a smarter digital citizen.
+                    </p>
+
+                </div>
+
+                <div class="phone-coach-card">
+
+                    <div class="phone-coach-icon">
+                        <i class="bi bi-robot"></i>
+                    </div>
+
+                    <div>
+                        <span>SafeBot recommends</span>
+                        <strong>Spotting online scams</strong>
+                    </div>
+
+                    <i class="bi bi-arrow-right"></i>
+
+                </div>
+
+                <div class="phone-missions">
+
+                    <div class="phone-mission-card">
+
+                        <span class="phone-mission-icon purple">
+                            <i class="bi bi-lock-fill"></i>
+                        </span>
+
+                        <div>
+                            <strong>Privacy Mission</strong>
+                            <span>Completed</span>
+                        </div>
+
+                        <i class="bi bi-check-circle-fill mission-complete"></i>
+
+                    </div>
+
+                    <div class="phone-mission-card">
+
+                        <span class="phone-mission-icon cyan">
+                            <i class="bi bi-chat-heart-fill"></i>
+                        </span>
+
+                        <div>
+                            <strong>Kindness Online</strong>
+                            <span>In progress</span>
+                        </div>
+
+                        <span class="mission-xp">+50 XP</span>
+
+                    </div>
+
+                </div>
+
+                <div class="phone-achievement">
+                    <span>🏆</span>
+
+                    <div>
+                        <strong>Achievement unlocked!</strong>
+                        <p>Digital Defender</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="hero-xp-badge">
+                <span>⚡</span>
+
+                <div>
+                    <strong>250 XP</strong>
+                    <small>Level 3 Explorer</small>
+                </div>
+            </div>
+
+            <div class="hero-safe-badge">
+                <i class="bi bi-shield-fill-check"></i>
+                Safer choices
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="hero-scroll-indicator">
+        <a href="#features" aria-label="Scroll to SafeSocial features">
+            <span>Discover SafeSocial</span>
+            <i class="bi bi-chevron-down"></i>
+        </a>
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FEATURE SECTION
+     ====================================================== -->
+
+<section class="home-features-section" id="features">
+
+    <div class="home-section-container">
+
+        <div class="home-section-heading">
+
+            <div class="home-section-label">
+                <i class="bi bi-lightning-charge-fill"></i>
+                Why SafeSocial?
+            </div>
+
+            <h2>
+                Everything you need to feel
+                <span>safer and smarter online</span>
+            </h2>
+
+            <p>
+                SafeSocial transforms online safety education into an
+                engaging and personalised experience designed especially
+                for teenagers.
+            </p>
+
+        </div>
+
+        <div class="home-features-grid">
+
+            <article class="home-feature-card feature-purple">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-shield-check"></i>
+                </div>
+
+                <div class="feature-number">01</div>
+
+                <h3>Recognise online risks</h3>
+
+                <p>
+                    Learn how to identify scams, fake accounts,
+                    cyberbullying, grooming and unsafe online behaviour.
+                </p>
+
+                <span class="feature-card-link">
+                    Build your awareness
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+            <article class="home-feature-card feature-cyan">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-robot"></i>
+                </div>
+
+                <div class="feature-number">02</div>
+
+                <h3>Personalised AI guidance</h3>
+
+                <p>
+                    SafeBot identifies your weaker knowledge areas and
+                    recommends challenges that match your learning needs.
+                </p>
+
+                <span class="feature-card-link">
+                    Meet your AI coach
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+            <article class="home-feature-card feature-pink">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-phone"></i>
+                </div>
+
+                <div class="feature-number">03</div>
+
+                <h3>Realistic social scenarios</h3>
+
+                <p>
+                    Practise making decisions using situations that reflect
+                    messages, posts and interactions teenagers may encounter.
+                </p>
+
+                <span class="feature-card-link">
+                    Practise safely
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+            <article class="home-feature-card feature-orange">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-controller"></i>
+                </div>
+
+                <div class="feature-number">04</div>
+
+                <h3>Gamified challenges</h3>
+
+                <p>
+                    Complete missions, earn experience points and turn
+                    important safety lessons into engaging activities.
+                </p>
+
+                <span class="feature-card-link">
+                    Complete missions
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+            <article class="home-feature-card feature-green">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-graph-up-arrow"></i>
+                </div>
+
+                <div class="feature-number">05</div>
+
+                <h3>Track your progress</h3>
+
+                <p>
+                    Monitor your safety score, completed modules,
+                    achievements and areas that need more attention.
+                </p>
+
+                <span class="feature-card-link">
+                    See your improvement
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+            <article class="home-feature-card feature-blue">
+
+                <div class="home-feature-icon">
+                    <i class="bi bi-trophy"></i>
+                </div>
+
+                <div class="feature-number">06</div>
+
+                <h3>Unlock achievements</h3>
+
+                <p>
+                    Celebrate every milestone as you develop stronger
+                    digital awareness and safer online habits.
+                </p>
+
+                <span class="feature-card-link">
+                    Become a digital hero
+                    <i class="bi bi-arrow-up-right"></i>
+                </span>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     HOW IT WORKS
+     ====================================================== -->
+
+<section class="home-process-section">
+
+    <div class="home-section-container">
+
+        <div class="home-section-heading">
+
+            <div class="home-section-label">
+                <i class="bi bi-signpost-split-fill"></i>
+                Your learning journey
+            </div>
+
+            <h2>
+                Four simple steps to becoming a
+                <span>social media hero</span>
+            </h2>
+
+            <p>
+                SafeSocial gives you a clear learning path based on
+                your awareness, progress and personal development needs.
+            </p>
+
+        </div>
+
+        <div class="home-process-grid">
+
+            <article class="home-process-card">
+
+                <div class="process-number">1</div>
+
+                <div class="process-icon">
+                    <i class="bi bi-person-plus-fill"></i>
+                </div>
+
+                <h3>Create your account</h3>
+
+                <p>
+                    Join SafeSocial and begin building your personalised
+                    online safety profile.
+                </p>
+
+            </article>
+
+            <div class="process-connector">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <article class="home-process-card">
+
+                <div class="process-number">2</div>
+
+                <div class="process-icon">
+                    <i class="bi bi-clipboard2-check-fill"></i>
+                </div>
+
+                <h3>Take the AI Safety Check</h3>
+
+                <p>
+                    Answer questions that help SafeSocial understand
+                    your strengths and awareness gaps.
+                </p>
+
+            </article>
+
+            <div class="process-connector">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <article class="home-process-card">
+
+                <div class="process-number">3</div>
+
+                <div class="process-icon">
+                    <i class="bi bi-joystick"></i>
+                </div>
+
+                <h3>Complete safety challenges</h3>
+
+                <p>
+                    Practise making safer decisions through interactive
+                    and realistic online scenarios.
+                </p>
+
+            </article>
+
+            <div class="process-connector">
+                <i class="bi bi-arrow-right"></i>
+            </div>
+
+            <article class="home-process-card">
+
+                <div class="process-number">4</div>
+
+                <div class="process-icon">
+                    <i class="bi bi-award-fill"></i>
+                </div>
+
+                <h3>Grow into a digital hero</h3>
+
+                <p>
+                    Earn XP, unlock achievements and watch your safety
+                    awareness improve.
+                </p>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     SAFEBOT SECTION
+     ====================================================== -->
+
+<section class="home-safebot-section">
+
+    <div class="home-section-container">
+
+        <div class="home-safebot-card">
+
+            <div class="safebot-visual">
+
+                <div class="safebot-glow"></div>
+
+                <div class="safebot-character">
+
+                    <div class="safebot-antenna">
+                        <span></span>
+                    </div>
+
+                    <div class="safebot-face">
+                        <div class="safebot-eye"></div>
+                        <div class="safebot-eye"></div>
+                        <div class="safebot-smile"></div>
+                    </div>
+
+                    <div class="safebot-body">
+                        <i class="bi bi-shield-check"></i>
+                    </div>
+
+                </div>
+
+                <div class="safebot-message safebot-message-one">
+                    <i class="bi bi-lightbulb-fill"></i>
+                    Try the privacy challenge next!
+                </div>
+
+                <div class="safebot-message safebot-message-two">
+                    <i class="bi bi-stars"></i>
+                    Great progress!
+                </div>
+
+            </div>
+
+            <div class="safebot-content">
+
+                <div class="home-section-label safebot-label">
+                    <i class="bi bi-robot"></i>
+                    Meet SafeBot
+                </div>
+
+                <h2>
+                    Your friendly
+                    <span>AI safety coach</span>
+                </h2>
+
+                <p>
+                    SafeBot uses your assessment results and learning
+                    progress to recommend the most useful challenges for you.
+                    It helps make every learning journey more personal,
+                    relevant and supportive.
+                </p>
+
+                <div class="safebot-benefits">
+
+                    <div class="safebot-benefit">
+
+                        <span>
+                            <i class="bi bi-check-lg"></i>
+                        </span>
+
+                        <div>
+                            <strong>Personalised recommendations</strong>
+                            <p>
+                                Activities are suggested based on your
+                                individual awareness gaps.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="safebot-benefit">
+
+                        <span>
+                            <i class="bi bi-check-lg"></i>
+                        </span>
+
+                        <div>
+                            <strong>Immediate learning feedback</strong>
+                            <p>
+                                Understand why a decision is safe or risky
+                                after each challenge.
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <div class="safebot-benefit">
+
+                        <span>
+                            <i class="bi bi-check-lg"></i>
+                        </span>
+
+                        <div>
+                            <strong>Supportive guidance</strong>
+                            <p>
+                                Learn in a friendly environment without
+                                judgement or pressure.
+                            </p>
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% if current_user.is_authenticated %}
+
+                    <a
+                        href="{{ url_for('dashboard') }}"
+                        class="primary-button"
+                    >
+                        <i class="bi bi-robot"></i>
+                        View SafeBot's Recommendation
+                    </a>
+
+                {% else %}
+
+                    <a
+                        href="{{ url_for('register') }}"
+                        class="primary-button"
+                    >
+                        <i class="bi bi-chat-heart-fill"></i>
+                        Begin Your Personalised Journey
+                    </a>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     ACHIEVEMENTS SECTION
+     ====================================================== -->
+
+<section class="home-achievements-section">
+
+    <div class="home-section-container">
+
+        <div class="home-section-heading">
+
+            <div class="home-section-label">
+                <i class="bi bi-trophy-fill"></i>
+                Learn and achieve
+            </div>
+
+            <h2>
+                Every smart decision deserves
+                <span>to be celebrated</span>
+            </h2>
+
+            <p>
+                Stay motivated by earning experience points,
+                unlocking badges and reaching new safety levels.
+            </p>
+
+        </div>
+
+        <div class="home-achievements-grid">
+
+            <article class="home-achievement-card">
+
+                <div class="home-achievement-icon achievement-yellow">
+                    🏅
+                </div>
+
+                <div>
+                    <span>Achievement</span>
+                    <h3>First Mission</h3>
+                    <p>Complete your first safety challenge.</p>
+                </div>
+
+                <div class="achievement-check">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+            </article>
+
+            <article class="home-achievement-card">
+
+                <div class="home-achievement-icon achievement-purple">
+                    ⚡
+                </div>
+
+                <div>
+                    <span>Experience</span>
+                    <h3>250 XP</h3>
+                    <p>Earn points through learning activities.</p>
+                </div>
+
+                <div class="achievement-check">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+            </article>
+
+            <article class="home-achievement-card">
+
+                <div class="home-achievement-icon achievement-orange">
+                    🔥
+                </div>
+
+                <div>
+                    <span>Consistency</span>
+                    <h3>Safety Streak</h3>
+                    <p>Continue developing smarter online habits.</p>
+                </div>
+
+                <div class="achievement-check">
+                    <i class="bi bi-check-lg"></i>
+                </div>
+
+            </article>
+
+            <article class="home-achievement-card">
+
+                <div class="home-achievement-icon achievement-green">
+                    🛡️
+                </div>
+
+                <div>
+                    <span>Advanced badge</span>
+                    <h3>Digital Guardian</h3>
+                    <p>Demonstrate strong online safety awareness.</p>
+                </div>
+
+                <div class="achievement-lock">
+                    <i class="bi bi-lock-fill"></i>
+                </div>
+
+            </article>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ======================================================
+     FINAL CALL TO ACTION
+     ====================================================== -->
+
+<section class="home-cta-section">
+
+    <div class="home-section-container">
+
+        <div class="home-cta-card">
+
+            <div class="cta-decoration cta-decoration-one">
+                <i class="bi bi-shield-fill-check"></i>
+            </div>
+
+            <div class="cta-decoration cta-decoration-two">
+                <i class="bi bi-stars"></i>
+            </div>
+
+            <div class="cta-decoration cta-decoration-three">
+                <i class="bi bi-chat-heart-fill"></i>
+            </div>
+
+            <div class="home-cta-content">
+
+                <span class="home-cta-label">
+                    Your safer online journey starts here
+                </span>
+
+                <h2>
+                    Ready to become a smarter
+                    <span>digital citizen?</span>
+                </h2>
+
+                <p>
+                    Build the confidence and awareness you need to
+                    make safer choices whenever you use social media.
+                </p>
+
+                <div class="home-cta-actions">
+
+                    {% if current_user.is_authenticated %}
+
+                        <a
+                            href="{{ url_for('learning_modules') }}"
+                            class="home-cta-primary"
+                        >
+                            <i class="bi bi-controller"></i>
+                            Continue Your Challenges
+                        </a>
+
+                        <a
+                            href="{{ url_for('dashboard') }}"
+                            class="home-cta-secondary"
+                        >
+                            View Your Safety Hub
+                        </a>
+
+                    {% else %}
+
+                        <a
+                            href="{{ url_for('register') }}"
+                            class="home-cta-primary"
+                        >
+                            <i class="bi bi-rocket-takeoff-fill"></i>
+                            Start Learning Today
+                        </a>
+
+                        <a
+                            href="{{ url_for('login') }}"
+                            class="home-cta-secondary"
+                        >
+                            I Already Have an Account
+                        </a>
+
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+{% endblock %}

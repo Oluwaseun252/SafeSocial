@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+
+{% block title %}SafeBot | SafeSocial{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <div class="card shadow-sm border-0 rounded-4">
+                <div class="card-body p-4 p-md-5">
+
+                    <div class="text-center mb-4">
+                        <div class="display-5 mb-2">🤖</div>
+                        <h1 class="h3 fw-bold">SafeBot</h1>
+                        <p class="text-muted mb-0">
+                            Your online safety coach
+                        </p>
+                    </div>
+
+                    <div class="alert alert-light border rounded-3 mb-4">
+                        <strong>Hi {{ current_user.username }}!</strong>
+                        <p class="mb-0 mt-2">
+                            Ask me about privacy, scams, passwords,
+                            cyberbullying, fake profiles or unsafe contact.
+                        </p>
+                    </div>
+
+                    <form method="POST" action="{{ url_for('chatbot') }}">
+                        <div class="mb-3">
+                            <label for="message" class="form-label fw-semibold">
+                                Your question
+                            </label>
+
+                            <textarea
+                                class="form-control"
+                                id="message"
+                                name="message"
+                                rows="4"
+                                maxlength="500"
+                                placeholder="For example: Someone online is asking for my phone number."
+                                required
+                            >{{ user_message }}</textarea>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 py-2"
+                        >
+                            Ask SafeBot
+                        </button>
+                    </form>
+
+                    {% if response %}
+                    <div class="mt-4 p-4 border rounded-3 bg-light">
+                        <div class="d-flex align-items-center gap-2 mb-3">
+                            <span class="fs-4">🤖</span>
+                            <h2 class="h5 mb-0">SafeBot says</h2>
+                        </div>
+
+                        <p class="mb-3">
+                            {{ response.reply }}
+                        </p>
+
+                        {% if response.module %}
+<div class="alert alert-info mb-0">
+    <div class="mb-2">
+        <strong>📚 Recommended learning module</strong>
+    </div>
+
+    <p class="mb-3">
+        {{ response.module }}
+    </p>
+
+    <a
+        href="{{ url_for('learning_modules') }}"
+        class="btn btn-outline-primary btn-sm"
+    >
+        Open Learning Modules
+    </a>
+</div>
+{% endif %}
+                    </div>
+                    {% endif %}
+
+                    <div class="mt-4 text-center">
+                        <a
+                            href="{{ url_for('dashboard') }}"
+                            class="text-decoration-none"
+                        >
+                            Return to dashboard
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

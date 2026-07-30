@@ -1,0 +1,272 @@
+{% extends "base.html" %}
+
+{% block title %}
+Social Media Challenge | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<section class="assessment-section">
+
+    <div class="assessment-container">
+
+        <div class="assessment-header">
+
+            <p class="dashboard-label">
+                🤖 AI Social Media Challenge
+            </p>
+
+            <div class="mission-heading">
+
+    <span class="mission-number">
+        Mission {{ category_number }} of {{ total_categories }}
+    </span>
+
+    <h1>
+        {{ question.category }}
+    </h1>
+
+    <p class="mission-question-progress">
+        Question {{ category_question_number }}
+        of {{ category_total_questions }}
+    </p>
+
+</div>
+            <div class="assessment-progress">
+                <div
+                    class="assessment-progress-bar"
+                    style="--progress-width: {{ progress_percentage }}%;"
+                ></div>
+            </div>
+
+            <p class="assessment-progress-text">
+    {{ progress_percentage }}% of your full safety journey completed
+</p>
+
+            <p class="challenge-tip">
+    {% if category_question_number == 1 %}
+        🚀 New mission started. Show what you know!
+    {% elif category_question_number == category_total_questions %}
+        🔥 Final question in this mission. Finish strong!
+    {% else %}
+        🛡️ Every safe decision makes you stronger online.
+    {% endif %}
+</p>
+
+        </div>
+
+        {% set platform = "Social Media" %}
+        {% set platform_icon = "📱" %}
+        {% set username = "@unknown_user" %}
+        {% set scenario_type = "social" %}
+
+        {% if question.category == "Privacy and Oversharing" %}
+            {% set platform = "Instagram" %}
+            {% set platform_icon = "📸" %}
+            {% set username = "@new_friend21" %}
+            {% set scenario_type = "instagram" %}
+
+        {% elif question.category == "Cyberbullying" %}
+            {% set platform = "Group Chat" %}
+            {% set platform_icon = "💬" %}
+            {% set username = "School Friends" %}
+            {% set scenario_type = "chat" %}
+
+        {% elif question.category == "Online Grooming" %}
+            {% set platform = "Snapchat" %}
+            {% set platform_icon = "👻" %}
+            {% set username = "@friendly_person" %}
+            {% set scenario_type = "snapchat" %}
+
+        {% elif question.category == "Phishing and Scams" %}
+            {% set platform = "Account Notification" %}
+            {% set platform_icon = "⚠️" %}
+            {% set username = "Security Alert" %}
+            {% set scenario_type = "warning" %}
+
+        {% elif question.category == "Fake Profiles and Impersonation" %}
+            {% set platform = "Profile Check" %}
+            {% set platform_icon = "🕵️" %}
+            {% set username = "@official_account_01" %}
+            {% set scenario_type = "profile" %}
+
+        {% elif question.category == "Misinformation" %}
+            {% set platform = "TikTok" %}
+            {% set platform_icon = "🎵" %}
+            {% set username = "@trending_news" %}
+            {% set scenario_type = "tiktok" %}
+
+        {% elif question.category == "Social Engineering" %}
+            {% set platform = "Direct Message" %}
+            {% set platform_icon = "🔐" %}
+            {% set username = "@support_team" %}
+            {% set scenario_type = "security" %}
+
+        {% elif question.category == "Digital Footprint and Reputation" %}
+            {% set platform = "Post Preview" %}
+            {% set platform_icon = "🌐" %}
+            {% set username = "@your_profile" %}
+            {% set scenario_type = "footprint" %}
+        {% endif %}
+
+        <article class="question-card single-question-card">
+
+            <div class="challenge-category-row">
+
+                <span class="question-category">
+                    {{ question.category }}
+                </span>
+
+                <span class="challenge-points">
+                    +20 XP
+                </span>
+
+            </div>
+
+            <div class="social-scenario {{ scenario_type }}-scenario">
+
+                <div class="social-scenario-header">
+
+                    <div class="platform-identity">
+
+                        <span class="platform-icon">
+                            {{ platform_icon }}
+                        </span>
+
+                        <div>
+                            <strong>{{ platform }}</strong>
+                            <span>{{ username }}</span>
+                        </div>
+
+                    </div>
+
+                    <span class="scenario-menu">
+                        •••
+                    </span>
+
+                </div>
+
+                <div class="social-scenario-body">
+
+                    <p class="scenario-label">
+                        What would you do?
+                    </p>
+
+                    <h2>
+                        {{ question.question_text }}
+                    </h2>
+
+                </div>
+
+                <div class="social-scenario-footer">
+                    SafeSocial simulation • No real account involved
+                </div>
+
+            </div>
+
+            <p class="mission-text">
+                🎯 Your mission: choose the safest response.
+            </p>
+
+            <form
+                method="POST"
+                action="{{ url_for('assessment') }}"
+                class="challenge-form"
+            >
+
+                <input
+                    type="hidden"
+                    name="question_id"
+                    value="{{ question.id }}"
+                >
+
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="answer"
+                        value="A"
+                        required
+                    >
+
+                    <span class="answer-letter">A</span>
+
+                    <span class="answer-text">
+                        {{ question.option_a }}
+                    </span>
+
+                </label>
+
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="answer"
+                        value="B"
+                        required
+                    >
+
+                    <span class="answer-letter">B</span>
+
+                    <span class="answer-text">
+                        {{ question.option_b }}
+                    </span>
+
+                </label>
+
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="answer"
+                        value="C"
+                        required
+                    >
+
+                    <span class="answer-letter">C</span>
+
+                    <span class="answer-text">
+                        {{ question.option_c }}
+                    </span>
+
+                </label>
+
+                <label class="answer-option">
+
+                    <input
+                        type="radio"
+                        name="answer"
+                        value="D"
+                        required
+                    >
+
+                    <span class="answer-letter">D</span>
+
+                    <span class="answer-text">
+                        {{ question.option_d }}
+                    </span>
+
+                </label>
+
+                <button
+                    type="submit"
+                    class="primary-button assessment-button"
+                >
+                    {% if question_number == total_questions %}
+    🎯 Complete AI Assessment
+{% elif category_question_number == category_total_questions %}
+    Complete Mission →
+{% else %}
+    Next Question →
+{% endif %}
+                </button>
+
+            </form>
+
+        </article>
+
+    </div>
+
+</section>
+
+{% endblock %}

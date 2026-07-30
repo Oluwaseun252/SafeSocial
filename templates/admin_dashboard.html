@@ -1,0 +1,846 @@
+{% extends "base.html" %}
+
+{% block title %}
+Admin Dashboard | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<style>
+    .admin-dashboard {
+        width: 100%;
+        max-width: 1350px;
+        margin: 0 auto;
+        padding: 30px 20px 60px;
+    }
+
+    .admin-header {
+        padding: 32px;
+        border-radius: 26px;
+        color: #ffffff;
+        background: linear-gradient(
+            135deg,
+            #312e81,
+            #6d28d9,
+            #8b5cf6
+        );
+        box-shadow: 0 18px 45px rgba(76, 29, 149, 0.22);
+    }
+
+    .dashboard-label {
+        display: inline-block;
+        margin: 0 0 12px;
+        padding: 7px 13px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.14);
+        font-size: 0.82rem;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+
+    .admin-header h1 {
+        margin: 0 0 12px;
+        font-size: clamp(2rem, 4vw, 3rem);
+    }
+
+    .admin-header p {
+        max-width: 760px;
+        margin: 0;
+        color: rgba(255, 255, 255, 0.86);
+        line-height: 1.7;
+    }
+
+    .admin-section {
+        margin-top: 28px;
+    }
+
+    .section-heading {
+        margin-bottom: 16px;
+    }
+
+    .section-heading h2 {
+        margin: 0 0 5px;
+        color: #2d1b42;
+        font-size: 1.45rem;
+    }
+
+    .section-heading p {
+        margin: 0;
+        color: #7f748b;
+    }
+
+    .admin-metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 16px;
+    }
+
+    .admin-metric-card {
+        padding: 22px;
+        border: 1px solid #ece6f4;
+        border-radius: 20px;
+        background: #ffffff;
+        box-shadow: 0 9px 25px rgba(47, 30, 69, 0.07);
+    }
+
+    .admin-metric-icon {
+        display: grid;
+        width: 46px;
+        height: 46px;
+        margin-bottom: 16px;
+        place-items: center;
+        border-radius: 14px;
+        color: #6d28d9;
+        background: #f0e9ff;
+        font-size: 1.2rem;
+    }
+
+    .admin-metric-card h3 {
+        margin: 0;
+        color: #81758d;
+        font-size: 0.85rem;
+        font-weight: 800;
+    }
+
+    .admin-metric-number {
+        display: block;
+        margin: 8px 0 6px;
+        color: #2f1c43;
+        font-size: 1.65rem;
+        font-weight: 900;
+    }
+
+    .admin-metric-card p:last-child {
+        margin: 0;
+        color: #988da2;
+        font-size: 0.8rem;
+        line-height: 1.45;
+    }
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .summary-card {
+        padding: 24px;
+        border: 1px solid #e9e2f2;
+        border-radius: 21px;
+        background: linear-gradient(
+            180deg,
+            #ffffff,
+            #fbf9ff
+        );
+        box-shadow: 0 8px 24px rgba(47, 30, 69, 0.06);
+    }
+
+    .summary-icon {
+        display: grid;
+        width: 48px;
+        height: 48px;
+        margin-bottom: 16px;
+        place-items: center;
+        border-radius: 15px;
+        color: #ffffff;
+        background: linear-gradient(
+            135deg,
+            #6d28d9,
+            #9b6ef3
+        );
+    }
+
+    .summary-card h3 {
+        margin: 0 0 8px;
+        color: #352047;
+        font-size: 1rem;
+    }
+
+    .summary-value {
+        display: block;
+        margin-bottom: 8px;
+        color: #6d28d9;
+        font-size: 1.45rem;
+        font-weight: 900;
+    }
+
+    .summary-card p {
+        margin: 0;
+        color: #85798f;
+        line-height: 1.55;
+    }
+
+    .charts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .chart-card {
+        padding: 25px;
+        border: 1px solid #ece6f4;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 10px 28px rgba(47, 30, 69, 0.07);
+    }
+
+    .chart-card.full-width {
+        grid-column: 1 / -1;
+    }
+
+    .chart-card h3 {
+        margin: 0 0 5px;
+        color: #302041;
+        font-size: 1.15rem;
+    }
+
+    .chart-card p {
+        margin: 0 0 20px;
+        color: #8c8196;
+        font-size: 0.84rem;
+    }
+
+    .chart-wrapper {
+        position: relative;
+        width: 100%;
+        height: 320px;
+    }
+
+    .tables-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .table-card {
+        padding: 24px;
+        border: 1px solid #ece6f4;
+        border-radius: 22px;
+        background: #ffffff;
+        box-shadow: 0 10px 28px rgba(47, 30, 69, 0.07);
+        overflow: hidden;
+    }
+
+    .table-card h3 {
+        margin: 0 0 5px;
+        color: #302041;
+        font-size: 1.15rem;
+    }
+
+    .table-card > p {
+        margin: 0 0 18px;
+        color: #8c8196;
+        font-size: 0.84rem;
+    }
+
+    .responsive-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+    .admin-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .admin-table th {
+        padding: 12px;
+        color: #6d28d9;
+        background: #f6f1ff;
+        text-align: left;
+        font-size: 0.8rem;
+        white-space: nowrap;
+    }
+
+    .admin-table td {
+        padding: 13px 12px;
+        border-bottom: 1px solid #eee8f3;
+        color: #4f405b;
+        font-size: 0.84rem;
+    }
+
+    .admin-table tr:last-child td {
+        border-bottom: none;
+    }
+
+    .score-badge {
+        display: inline-block;
+        padding: 5px 9px;
+        border-radius: 999px;
+        color: #5b21b6;
+        background: #f0e7ff;
+        font-size: 0.78rem;
+        font-weight: 900;
+    }
+
+    .empty-state {
+        padding: 28px 18px;
+        border: 2px dashed #ded5e8;
+        border-radius: 17px;
+        text-align: center;
+        background: #fcfbfe;
+    }
+
+    .empty-state h4 {
+        margin: 0 0 7px;
+        color: #4c395c;
+    }
+
+    .empty-state p {
+        margin: 0;
+        color: #95899e;
+    }
+
+    @media (max-width: 1050px) {
+        .admin-metrics-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .tables-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @media (max-width: 760px) {
+        .charts-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .chart-card.full-width {
+            grid-column: auto;
+        }
+
+        .admin-header {
+            padding: 25px 20px;
+        }
+    }
+
+    @media (max-width: 560px) {
+        .admin-dashboard {
+            padding: 20px 14px 45px;
+        }
+
+        .admin-metrics-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .chart-card,
+        .table-card {
+            padding: 19px;
+        }
+
+        .chart-wrapper {
+            height: 280px;
+        }
+    }
+</style>
+
+<div class="admin-dashboard">
+
+    <section class="admin-header">
+        <p class="dashboard-label">
+            Platform analytics
+        </p>
+
+        <h1>SafeSocial Admin Dashboard</h1>
+
+        <p>
+            Review user engagement, learning activity, assessment
+            performance and evaluation feedback across the SafeSocial
+            platform.
+        </p>
+    </section>
+
+    <section class="admin-section">
+        <div class="section-heading">
+            <h2>Platform overview</h2>
+
+            <p>
+                Key statistics showing how users are engaging with SafeSocial.
+            </p>
+        </div>
+
+        <div class="admin-metrics-grid">
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">👥</div>
+
+                <h3>Total users</h3>
+
+                <strong class="admin-metric-number">
+                    {{ total_users }}
+                </strong>
+
+                <p>Registered SafeSocial accounts</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">📝</div>
+
+                <h3>Assessments</h3>
+
+                <strong class="admin-metric-number">
+                    {{ total_assessments }}
+                </strong>
+
+                <p>Assessment results recorded</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">📚</div>
+
+                <h3>Modules completed</h3>
+
+                <strong class="admin-metric-number">
+                    {{ total_modules }}
+                </strong>
+
+                <p>Completed learning modules</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">💬</div>
+
+                <h3>Evaluations</h3>
+
+                <strong class="admin-metric-number">
+                    {{ total_evaluations }}
+                </strong>
+
+                <p>User evaluations submitted</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">📊</div>
+
+                <h3>Average score</h3>
+
+                <strong class="admin-metric-number">
+                    {{ average_score }}%
+                </strong>
+
+                <p>Average assessment performance</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">🏆</div>
+
+                <h3>Highest score</h3>
+
+                <strong class="admin-metric-number">
+                    {{ highest_score }}%
+                </strong>
+
+                <p>Highest recorded assessment score</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">⚠</div>
+
+                <h3>Lowest score</h3>
+
+                <strong class="admin-metric-number">
+                    {{ lowest_score }}%
+                </strong>
+
+                <p>Lowest recorded assessment score</p>
+            </article>
+
+            <article class="admin-metric-card">
+                <div class="admin-metric-icon">⭐</div>
+
+                <h3>Satisfaction</h3>
+
+                <strong class="admin-metric-number">
+                    {{ average_rating }} / 5
+                </strong>
+
+                <p>Average user satisfaction rating</p>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <div class="section-heading">
+            <h2>Key insights</h2>
+
+            <p>
+                Important findings from user activity and platform data.
+            </p>
+        </div>
+
+        <div class="summary-grid">
+
+            <article class="summary-card">
+                <div class="summary-icon">⚠</div>
+
+                <h3>Most difficult category</h3>
+
+                <strong class="summary-value">
+                    {% if most_difficult_category %}
+                        {{ most_difficult_category }}
+                    {% else %}
+                        No data
+                    {% endif %}
+                </strong>
+
+                <p>
+                    {% if most_difficult_category %}
+                        Average score:
+                        {{ most_difficult_category_score }}%.
+                    {% else %}
+                        Complete assessments to generate this insight.
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="summary-card">
+                <div class="summary-icon">📘</div>
+
+                <h3>Most completed module</h3>
+
+                <strong class="summary-value">
+                    {% if most_completed_module %}
+                        {{ most_completed_module }}
+                    {% else %}
+                        No data
+                    {% endif %}
+                </strong>
+
+                <p>
+                    {% if most_completed_module %}
+                        Completed
+                        {{ most_completed_module_count }}
+                        times.
+                    {% else %}
+                        Module completion activity will appear here.
+                    {% endif %}
+                </p>
+            </article>
+
+            <article class="summary-card">
+                <div class="summary-icon">✅</div>
+
+                <h3>Evaluation completion</h3>
+
+                <strong class="summary-value">
+                    {{ evaluation_completion_rate }}%
+                </strong>
+
+                <p>
+                    Percentage of registered users who have submitted
+                    a platform evaluation.
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <div class="section-heading">
+            <h2>Performance analytics</h2>
+
+            <p>
+                Visual analysis of assessment, learning and awareness data.
+            </p>
+        </div>
+
+        <div class="charts-grid">
+
+            <article class="chart-card">
+                <h3>Category performance</h3>
+
+                <p>
+                    Average assessment score for each risk category.
+                </p>
+
+                <div class="chart-wrapper">
+                    <canvas id="categoryChart"></canvas>
+                </div>
+            </article>
+
+            <article class="chart-card">
+                <h3>Module completion</h3>
+
+                <p>
+                    Number of completed learning modules by module name.
+                </p>
+
+                <div class="chart-wrapper">
+                    <canvas id="moduleChart"></canvas>
+                </div>
+            </article>
+
+            <article class="chart-card full-width">
+                <h3>Awareness distribution</h3>
+
+                <p>
+                    Distribution of assessment results across awareness levels.
+                </p>
+
+                <div class="chart-wrapper">
+                    <canvas id="awarenessChart"></canvas>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <section class="admin-section">
+        <div class="section-heading">
+            <h2>Recent platform activity</h2>
+
+            <p>
+                The latest users and assessment results recorded in SafeSocial.
+            </p>
+        </div>
+
+        <div class="tables-grid">
+
+            <article class="table-card">
+                <h3>Recent users</h3>
+
+                <p>
+                    The five most recently registered users.
+                </p>
+
+                {% if recent_users %}
+                    <div class="responsive-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Username</th>
+                                    <th>XP</th>
+                                    <th>Level</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for user in recent_users %}
+                                    <tr>
+                                        <td>{{ user.id }}</td>
+
+                                        <td>{{ user.username }}</td>
+
+                                        <td>{{ user.xp or 0 }}</td>
+
+                                        <td>{{ user.level or 1 }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <h4>No users found</h4>
+
+                        <p>
+                            Registered users will appear here.
+                        </p>
+                    </div>
+                {% endif %}
+            </article>
+
+            <article class="table-card">
+                <h3>Recent assessments</h3>
+
+                <p>
+                    The five most recently completed assessments.
+                </p>
+
+                {% if recent_assessments %}
+                    <div class="responsive-table">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Category</th>
+                                    <th>Score</th>
+                                    <th>Date</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                {% for result in recent_assessments %}
+                                    <tr>
+                                        <td>{{ result.user_id }}</td>
+
+                                        <td>{{ result.category }}</td>
+
+                                        <td>
+                                            <span class="score-badge">
+                                                {{ result.percentage | round | int }}%
+                                            </span>
+                                        </td>
+
+                                        <td>
+                                            {% if result.date_completed %}
+                                                {{ result.date_completed.strftime("%d %b %Y") }}
+                                            {% else %}
+                                                Not available
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="empty-state">
+                        <h4>No assessments found</h4>
+
+                        <p>
+                            Completed assessments will appear here.
+                        </p>
+                    </div>
+                {% endif %}
+            </article>
+
+        </div>
+    </section>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const categoryLabels = {{ category_labels | tojson }};
+        const categoryScores = {{ category_scores | tojson }};
+
+        const moduleLabels = {{ module_labels | tojson }};
+        const moduleCounts = {{ module_counts | tojson }};
+
+        const awarenessLabels =
+            {{ awareness_distribution_labels | tojson }};
+
+        const awarenessValues =
+            {{ awareness_distribution_values | tojson }};
+
+        const categoryCanvas =
+            document.getElementById("categoryChart");
+
+        if (categoryCanvas) {
+            new Chart(categoryCanvas, {
+                type: "bar",
+                data: {
+                    labels: categoryLabels,
+                    datasets: [
+                        {
+                            label: "Average score (%)",
+                            data: categoryScores,
+                            backgroundColor: "rgba(109, 40, 217, 0.75)",
+                            borderColor: "rgba(109, 40, 217, 1)",
+                            borderWidth: 1,
+                            borderRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                callback: function (value) {
+                                    return value + "%";
+                                }
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        const moduleCanvas =
+            document.getElementById("moduleChart");
+
+        if (moduleCanvas) {
+            new Chart(moduleCanvas, {
+                type: "bar",
+                data: {
+                    labels: moduleLabels,
+                    datasets: [
+                        {
+                            label: "Completed modules",
+                            data: moduleCounts,
+                            backgroundColor: "rgba(139, 92, 246, 0.75)",
+                            borderColor: "rgba(139, 92, 246, 1)",
+                            borderWidth: 1,
+                            borderRadius: 8
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    indexAxis: "y",
+                    scales: {
+                        x: {
+                            beginAtZero: true,
+                            ticks: {
+                                precision: 0
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        const awarenessCanvas =
+            document.getElementById("awarenessChart");
+
+        if (awarenessCanvas) {
+            new Chart(awarenessCanvas, {
+                type: "doughnut",
+                data: {
+                    labels: awarenessLabels,
+                    datasets: [
+                        {
+                            data: awarenessValues,
+                            backgroundColor: [
+                                "rgba(34, 197, 94, 0.8)",
+                                "rgba(245, 158, 11, 0.8)",
+                                "rgba(239, 68, 68, 0.8)"
+                            ],
+                            borderWidth: 2,
+                            borderColor: "#ffffff"
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: "63%",
+                    plugins: {
+                        legend: {
+                            position: "bottom"
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+{% endblock %}

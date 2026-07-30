@@ -1,0 +1,330 @@
+{% extends "base.html" %}
+
+{% block title %}
+AI Awareness Report | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="results-hero">
+
+        <div>
+            <p class="dashboard-label">
+                ✅ AI assessment completed
+            </p>
+
+            <h1>
+                Your Social Media Awareness Report
+            </h1>
+
+            <p>
+                SafeSocial analysed your responses to identify your strengths,
+                potential risk areas and recommended next challenge.
+            </p>
+        </div>
+
+        <div class="overall-score-circle">
+            <span>Awareness score</span>
+
+            <strong>
+                {{ ai_report.overall_score }}%
+            </strong>
+        </div>
+
+    </div>
+
+    <section class="ai-report-card">
+
+        <div class="ai-report-heading">
+
+            <div class="ai-report-title">
+
+                <div class="ai-report-icon">
+                    🤖
+                </div>
+
+                <div>
+                    <p class="dashboard-label">
+                        AI-powered insight
+                    </p>
+
+                    <h2>
+                        Personalised Risk Awareness Report
+                    </h2>
+                </div>
+
+            </div>
+
+            <span class="risk-level-badge">
+                {{ ai_report.risk_level }}
+            </span>
+
+        </div>
+
+        <div class="ai-report-grid">
+
+            <article class="report-item">
+
+                <div class="report-icon">
+                    📊
+                </div>
+
+                <div>
+                    <span class="report-label">
+                        Overall Awareness
+                    </span>
+
+                    <strong class="report-value">
+                        {{ ai_report.overall_score }}%
+                    </strong>
+                </div>
+
+            </article>
+
+            <article class="report-item">
+
+                <div class="report-icon">
+                    🛡️
+                </div>
+
+                <div>
+                    <span class="report-label">
+                        Current Risk Level
+                    </span>
+
+                    <strong class="report-text-value">
+                        {{ ai_report.risk_level }}
+                    </strong>
+                </div>
+
+            </article>
+
+            <article class="report-item risk-area-item">
+
+                <div class="report-icon">
+                    ⚠️
+                </div>
+
+                <div>
+                    <span class="report-label">
+                        Priority Improvement Area
+                    </span>
+
+                    <strong class="report-text-value">
+                        {{ ai_report.highest_risk }}
+                    </strong>
+                </div>
+
+            </article>
+
+            <article class="report-item strength-area-item">
+
+                <div class="report-icon">
+                    💪
+                </div>
+
+                <div>
+                    <span class="report-label">
+                        Strongest Awareness Area
+                    </span>
+
+                    <strong class="report-text-value">
+                        {{ ai_report.strongest_area }}
+                    </strong>
+                </div>
+
+            </article>
+
+        </div>
+
+        <div class="ai-insight-layout">
+
+            <article class="ai-analysis">
+
+                <div class="insight-heading">
+                    <span>🧠</span>
+
+                    <h3>
+                        AI Personalised Analysis
+                    </h3>
+                </div>
+
+                <p>
+                    {{ ai_report.analysis }}
+                </p>
+
+            </article>
+
+            <article class="ai-recommendation">
+
+                <div class="insight-heading">
+                    <span>🎯</span>
+
+                    <h3>
+                        Recommended Digital Intervention
+                    </h3>
+                </div>
+
+                <p>
+                    {{ ai_report.recommendation }}
+                </p>
+
+                <a
+                    href="{{ url_for(
+                        'learning_module',
+                        category=ai_report.highest_risk
+                    ) }}"
+                    class="primary-button intervention-button"
+                >
+                    Start Recommended Challenge →
+                </a>
+
+            </article>
+
+        </div>
+
+        <article class="expected-outcome">
+
+            <div class="expected-outcome-icon">
+                📈
+            </div>
+
+            <div>
+                <h3>
+                    Expected Learning Outcome
+                </h3>
+
+                <p>
+                    Completing the recommended challenge should improve your
+                    ability to recognise, evaluate and respond safely to
+                    {{ ai_report.highest_risk|lower }} situations on social media.
+                </p>
+            </div>
+
+        </article>
+
+    </section>
+
+    <section class="category-results-section">
+
+        <div class="category-results-heading">
+
+            <div>
+                <p class="dashboard-label">
+                    Category breakdown
+                </p>
+
+                <h2>
+                    Your Awareness by Risk Area
+                </h2>
+            </div>
+
+            <p>
+                Review how you performed across each social media safety category.
+            </p>
+
+        </div>
+
+        <div class="category-results-grid">
+
+            {% for result in results %}
+
+                <article class="category-result-card">
+
+                    <div class="category-result-top">
+
+                        <div class="category-result-icon">
+
+                            {% if result.category == "Privacy and Oversharing" %}
+                                🔒
+                            {% elif result.category == "Cyberbullying" %}
+                                💬
+                            {% elif result.category == "Online Grooming" %}
+                                🚨
+                            {% elif result.category == "Phishing and Scams" %}
+                                🎣
+                            {% elif result.category == "Fake Profiles and Impersonation" %}
+                                🕵️
+                            {% elif result.category == "Misinformation" %}
+                                📰
+                            {% elif result.category == "Social Engineering" %}
+                                🧠
+                            {% elif result.category == "Digital Footprint and Reputation" %}
+                                🌐
+                            {% else %}
+                                📱
+                            {% endif %}
+
+                        </div>
+
+                        <span class="category-performance-label">
+
+                            {% if result.percentage >= 75 %}
+                                Strong awareness
+                            {% elif result.percentage >= 50 %}
+                                Developing awareness
+                            {% else %}
+                                Improvement needed
+                            {% endif %}
+
+                        </span>
+
+                    </div>
+
+                    <h3>
+                        {{ result.category }}
+                    </h3>
+
+                    <div class="category-score-row">
+
+                        <strong>
+                            {{ result.percentage }}%
+                        </strong>
+
+                        <span>
+                            {{ result.correct }} of {{ result.total }}
+                            safe decisions
+                        </span>
+
+                    </div>
+
+                    <div class="category-progress-track">
+
+                        <div
+                            class="category-progress-fill"
+                            style="--category-progress: {{ result.percentage }}%;"
+                        ></div>
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <div class="results-actions">
+
+        <a
+            href="{{ url_for('dashboard') }}"
+            class="primary-button"
+        >
+            Return to Safety Hub
+        </a>
+
+        <a
+            href="{{ url_for('assessment') }}"
+            class="secondary-button"
+        >
+            Retake AI Challenge
+        </a>
+
+    </div>
+
+</section>
+
+{% endblock %}

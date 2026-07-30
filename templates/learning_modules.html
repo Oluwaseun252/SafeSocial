@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}
+Learning Modules | SafeSocial
+{% endblock %}
+
+{% block content %}
+
+<section class="dashboard-section">
+
+    <div class="dashboard-header">
+        <p class="dashboard-label">Online safety learning</p>
+
+        <h1>Social Media Awareness Challenges</h1>
+
+        <p>
+            Complete social media awareness challenges to practise recognising risks, making safer decisions and earning XP.
+        </p>
+    </div>
+
+    <div class="modules-grid">
+
+        {% for category, module in learning_modules.items() %}
+
+            <article class="module-summary-card">
+
+                <div class="module-summary-icon">
+                    {{ module.icon }}
+                </div>
+
+                <h2>{{ category }}</h2>
+
+                <p>{{ module.title }}</p>
+
+                {% if category in completed_names %}
+                    <span class="completed-badge">
+                        Completed
+                    </span>
+                {% else %}
+                    <span class="available-badge">
+                        Available
+                    </span>
+                {% endif %}
+
+                <div class="module-card-action">
+                    <a
+                        href="{{ url_for('learning_module', category=category) }}"
+                        class="primary-button"
+                    >
+                        {% if category in completed_names %}
+                            Awareness Challenge Completed
+                        {% else %}
+                            Start Awareness Challenge
+                        {% endif %}
+                    </a>
+                </div>
+
+            </article>
+
+        {% endfor %}
+
+    </div>
+
+</section>
+
+{% endblock %}

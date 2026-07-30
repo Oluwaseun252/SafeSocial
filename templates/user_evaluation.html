@@ -1,0 +1,519 @@
+{% extends "base.html" %}
+
+{% block title %}
+SafeSocial Evaluation
+{% endblock %}
+
+{% block content %}
+
+<section class="evaluation-section">
+
+    <div class="evaluation-container">
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="message {{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="evaluation-hero">
+
+            <div class="evaluation-hero-content">
+
+                <p class="dashboard-label">
+                    📋 SafeSocial user evaluation
+                </p>
+
+                <h1>
+                    Tell Us About Your Experience
+                </h1>
+
+                <p>
+                    Your feedback will help evaluate whether SafeSocial is
+                    understandable, engaging, personalised and useful for
+                    supporting safer social media decisions.
+                </p>
+
+                <div class="evaluation-meta-row">
+
+                    <span class="evaluation-meta-badge">
+                        ⏱️ About 2 minutes
+                    </span>
+
+                    <span class="evaluation-meta-badge">
+                        🔒 Responses used for evaluation
+                    </span>
+
+                    {% if evaluation %}
+                        <span class="evaluation-completed-badge">
+                            ✓ Evaluation completed
+                        </span>
+                    {% endif %}
+
+                </div>
+
+            </div>
+
+            <div class="evaluation-hero-icon">
+                💬
+            </div>
+
+        </div>
+
+        <section class="evaluation-purpose-card">
+
+            <div class="evaluation-purpose-icon">
+                🔍
+            </div>
+
+            <div>
+                <h2>
+                    What this evaluation measures
+                </h2>
+
+                <p>
+                    The questions assess clarity, personalisation, engagement,
+                    confidence improvement and overall satisfaction with the
+                    SafeSocial digital intervention.
+                </p>
+            </div>
+
+        </section>
+
+        <form
+            method="POST"
+            action="{{ url_for('user_evaluation') }}"
+            class="evaluation-form"
+        >
+
+            <section class="evaluation-question-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        1
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            Learning clarity
+                        </p>
+
+                        <h2>
+                            The learning content was clear and easy to understand.
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="evaluation-rating-options">
+
+                    {% for number in range(1, 6) %}
+
+                        <label class="evaluation-rating-option">
+
+                            <input
+                                type="radio"
+                                name="learning_clarity"
+                                value="{{ number }}"
+                                required
+                                {% if evaluation
+                                    and evaluation.learning_clarity == number %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="evaluation-rating-number">
+                                {{ number }}
+                            </span>
+
+                            <span class="evaluation-rating-meaning">
+
+                                {% if number == 1 %}
+                                    Strongly disagree
+                                {% elif number == 2 %}
+                                    Disagree
+                                {% elif number == 3 %}
+                                    Neutral
+                                {% elif number == 4 %}
+                                    Agree
+                                {% else %}
+                                    Strongly agree
+                                {% endif %}
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="evaluation-question-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        2
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            AI personalisation
+                        </p>
+
+                        <h2>
+                            The personalised recommendation was useful.
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="evaluation-rating-options">
+
+                    {% for number in range(1, 6) %}
+
+                        <label class="evaluation-rating-option">
+
+                            <input
+                                type="radio"
+                                name="recommendation_usefulness"
+                                value="{{ number }}"
+                                required
+                                {% if evaluation
+                                    and evaluation.recommendation_usefulness == number %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="evaluation-rating-number">
+                                {{ number }}
+                            </span>
+
+                            <span class="evaluation-rating-meaning">
+
+                                {% if number == 1 %}
+                                    Strongly disagree
+                                {% elif number == 2 %}
+                                    Disagree
+                                {% elif number == 3 %}
+                                    Neutral
+                                {% elif number == 4 %}
+                                    Agree
+                                {% else %}
+                                    Strongly agree
+                                {% endif %}
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="evaluation-question-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        3
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            Engagement
+                        </p>
+
+                        <h2>
+                            The interactive scenarios kept me engaged.
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="evaluation-rating-options">
+
+                    {% for number in range(1, 6) %}
+
+                        <label class="evaluation-rating-option">
+
+                            <input
+                                type="radio"
+                                name="scenario_engagement"
+                                value="{{ number }}"
+                                required
+                                {% if evaluation
+                                    and evaluation.scenario_engagement == number %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="evaluation-rating-number">
+                                {{ number }}
+                            </span>
+
+                            <span class="evaluation-rating-meaning">
+
+                                {% if number == 1 %}
+                                    Strongly disagree
+                                {% elif number == 2 %}
+                                    Disagree
+                                {% elif number == 3 %}
+                                    Neutral
+                                {% elif number == 4 %}
+                                    Agree
+                                {% else %}
+                                    Strongly agree
+                                {% endif %}
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="evaluation-question-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        4
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            Confidence and behaviour
+                        </p>
+
+                        <h2>
+                            SafeSocial improved my confidence in making safer
+                            online decisions.
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="evaluation-rating-options">
+
+                    {% for number in range(1, 6) %}
+
+                        <label class="evaluation-rating-option">
+
+                            <input
+                                type="radio"
+                                name="confidence_improvement"
+                                value="{{ number }}"
+                                required
+                                {% if evaluation
+                                    and evaluation.confidence_improvement == number %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="evaluation-rating-number">
+                                {{ number }}
+                            </span>
+
+                            <span class="evaluation-rating-meaning">
+
+                                {% if number == 1 %}
+                                    Strongly disagree
+                                {% elif number == 2 %}
+                                    Disagree
+                                {% elif number == 3 %}
+                                    Neutral
+                                {% elif number == 4 %}
+                                    Agree
+                                {% else %}
+                                    Strongly agree
+                                {% endif %}
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="evaluation-question-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        5
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            Overall satisfaction
+                        </p>
+
+                        <h2>
+                            Overall, I was satisfied with SafeSocial.
+                        </h2>
+                    </div>
+
+                </div>
+
+                <div class="evaluation-rating-options">
+
+                    {% for number in range(1, 6) %}
+
+                        <label class="evaluation-rating-option">
+
+                            <input
+                                type="radio"
+                                name="overall_satisfaction"
+                                value="{{ number }}"
+                                required
+                                {% if evaluation
+                                    and evaluation.overall_satisfaction == number %}
+                                    checked
+                                {% endif %}
+                            >
+
+                            <span class="evaluation-rating-number">
+                                {{ number }}
+                            </span>
+
+                            <span class="evaluation-rating-meaning">
+
+                                {% if number == 1 %}
+                                    Strongly disagree
+                                {% elif number == 2 %}
+                                    Disagree
+                                {% elif number == 3 %}
+                                    Neutral
+                                {% elif number == 4 %}
+                                    Agree
+                                {% else %}
+                                    Strongly agree
+                                {% endif %}
+
+                            </span>
+
+                        </label>
+
+                    {% endfor %}
+
+                </div>
+
+            </section>
+
+            <section class="evaluation-question-card evaluation-comment-card">
+
+                <div class="evaluation-question-heading">
+
+                    <span class="evaluation-question-number">
+                        6
+                    </span>
+
+                    <div>
+                        <p class="evaluation-question-category">
+                            Open feedback
+                        </p>
+
+                        <h2>
+                            What could improve your SafeSocial experience?
+                        </h2>
+                    </div>
+
+                </div>
+
+                <p class="evaluation-comment-guidance">
+                    You may comment on the assessment, AI report, learning
+                    challenges, design, accessibility or anything else you
+                    think could be improved.
+                </p>
+
+                <label
+                    for="suggestions"
+                    class="visually-hidden"
+                >
+                    Suggestions for improving SafeSocial
+                </label>
+
+                <textarea
+                    id="suggestions"
+                    name="suggestions"
+                    rows="7"
+                    maxlength="1000"
+                    placeholder="For example: I would like more realistic scenarios, clearer feedback or more challenge categories..."
+                >{% if evaluation %}{{ evaluation.suggestions or "" }}{% endif %}</textarea>
+
+                <div class="evaluation-textarea-footer">
+                    <span>
+                        This question is optional.
+                    </span>
+
+                    <span>
+                        Maximum 1,000 characters
+                    </span>
+                </div>
+
+            </section>
+
+            <article class="evaluation-consent-card">
+
+                <div class="evaluation-consent-icon">
+                    ✅
+                </div>
+
+                <div>
+                    <h2>
+                        Thank you for supporting the evaluation
+                    </h2>
+
+                    <p>
+                        Your responses will help assess the perceived usability,
+                        engagement and effectiveness of the SafeSocial prototype.
+                    </p>
+                </div>
+
+            </article>
+
+            <div class="evaluation-actions">
+
+                <a
+                    href="{{ url_for('dashboard') }}"
+                    class="secondary-button"
+                >
+                    ← Return to Safety Hub
+                </a>
+
+                <button
+                    type="submit"
+                    class="primary-button evaluation-submit-button"
+                >
+                    {% if evaluation %}
+                        Update Evaluation
+                    {% else %}
+                        Submit Evaluation
+                    {% endif %}
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</section>
+
+{% endblock %}
