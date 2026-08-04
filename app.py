@@ -1,3 +1,5 @@
+import os
+
 from flask import Flask
 
 from extensions import db, login_manager, migrate
@@ -6,8 +8,26 @@ from routes import register_routes
 
 app = Flask(__name__)
 
-app.config["SECRET_KEY"] = "development-secret-key"
-app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///safesocial.db"
+app.config["SECRET_KEY"] = os.environ.get(
+    "SECRET_KEY",
+    "development-secret-key",
+)
+
+database_url = os.environ.get(
+    "DATABASE_URL",
+    "sqlite:///safesocial.db",
+)
+
+# Some hosting services may provide postgres://,
+# while SQLAlchemy expects postgresql://.
+if database_url.startswith("postgres://"):
+    database_url = database_url.replace(
+        "postgres://",
+        "postgresql://",
+        1,
+    )
+
+app.config["SQLALCHEMY_DATABASE_URI"] = database_url
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
 
@@ -22,7 +42,6 @@ login_manager.login_message_category = "error"
 
 register_routes(app)
 
-# Load the database models before creating the tables.
 import models
 
 with app.app_context():
