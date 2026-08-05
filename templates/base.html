@@ -189,43 +189,45 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end">
 
-    <li>
-        <a
-            class="dropdown-item"
-            href="{{ url_for('dashboard') }}"
-        >
-            <i class="bi bi-person-circle"></i>
-            My Safety Hub
-        </a>
-    </li>
+                                    <li>
+                                        <a
+                                            class="dropdown-item"
+                                            href="{{ url_for('dashboard') }}"
+                                        >
+                                            <i class="bi bi-person-circle"></i>
+                                            My Safety Hub
+                                        </a>
+                                    </li>
 
-    {% if current_user.is_admin %}
-        <li>
-            <a
-                class="dropdown-item"
-                href="{{ url_for('admin_dashboard') }}"
-            >
-                <i class="bi bi-bar-chart-line"></i>
-                Admin Analytics
-            </a>
-        </li>
-    {% endif %}
+                                    {% if current_user.is_admin %}
 
-    <li>
-        <hr class="dropdown-divider">
-    </li>
+                                        <li>
+                                            <a
+                                                class="dropdown-item"
+                                                href="{{ url_for('admin_dashboard') }}"
+                                            >
+                                                <i class="bi bi-bar-chart-line"></i>
+                                                Admin Analytics
+                                            </a>
+                                        </li>
 
-    <li>
-        <a
-            class="dropdown-item logout-link"
-            href="{{ url_for('logout') }}"
-        >
-            <i class="bi bi-box-arrow-right"></i>
-            Log out
-        </a>
-    </li>
+                                    {% endif %}
 
-</ul>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+
+                                    <li>
+                                        <a
+                                            class="dropdown-item logout-link"
+                                            href="{{ url_for('logout') }}"
+                                        >
+                                            <i class="bi bi-box-arrow-right"></i>
+                                            Log out
+                                        </a>
+                                    </li>
+
+                                </ul>
 
                             </li>
 
@@ -297,16 +299,21 @@
                             <span class="alert-icon">
 
                                 {% if alert_class == 'success' %}
+
                                     <i class="bi bi-check-circle-fill"></i>
 
                                 {% elif alert_class == 'danger' %}
+
                                     <i class="bi bi-exclamation-octagon-fill"></i>
 
                                 {% elif alert_class == 'warning' %}
+
                                     <i class="bi bi-exclamation-triangle-fill"></i>
 
                                 {% else %}
+
                                     <i class="bi bi-info-circle-fill"></i>
+
                                 {% endif %}
 
                             </span>
@@ -405,6 +412,16 @@
                                     SafeBot
                                 </a>
                             </li>
+
+                            {% if current_user.is_admin %}
+
+                                <li>
+                                    <a href="{{ url_for('admin_dashboard') }}">
+                                        Admin Analytics
+                                    </a>
+                                </li>
+
+                            {% endif %}
 
                         {% else %}
 
