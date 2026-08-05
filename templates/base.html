@@ -197,7 +197,19 @@
                                             <i class="bi bi-person-circle"></i>
                                             My Safety Hub
                                         </a>
-                                        {% if current_user.is_admin %}
+                                        
+                                    </li>
+<li>
+    <a
+        class="dropdown-item"
+        href="{{ url_for('dashboard') }}"
+    >
+        <i class="bi bi-person-circle"></i>
+        My Safety Hub
+    </a>
+</li>
+
+{% if current_user.is_admin %}
     <li>
         <a
             class="dropdown-item"
@@ -208,8 +220,6 @@
         </a>
     </li>
 {% endif %}
-                                    </li>
-
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
