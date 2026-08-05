@@ -189,52 +189,43 @@
 
                                 <ul class="dropdown-menu dropdown-menu-end">
 
-                                    <li>
-                                        <a
-                                            class="dropdown-item"
-                                            href="{{ url_for('dashboard') }}"
-                                        >
-                                            <i class="bi bi-person-circle"></i>
-                                            My Safety Hub
-                                        </a>
-                                        
-                                    </li>
-<li>
-    <a
-        class="dropdown-item"
-        href="{{ url_for('dashboard') }}"
-    >
-        <i class="bi bi-person-circle"></i>
-        My Safety Hub
-    </a>
-</li>
-
-{% if current_user.is_admin %}
     <li>
         <a
             class="dropdown-item"
-            href="{{ url_for('admin_dashboard') }}"
+            href="{{ url_for('dashboard') }}"
         >
-            <i class="bi bi-bar-chart-line"></i>
-            Admin Analytics
+            <i class="bi bi-person-circle"></i>
+            My Safety Hub
         </a>
     </li>
-{% endif %}
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
 
-                                    <li>
-                                        <a
-                                            class="dropdown-item logout-link"
-                                            href="{{ url_for('logout') }}"
-                                        >
-                                            <i class="bi bi-box-arrow-right"></i>
-                                            Log out
-                                        </a>
-                                    </li>
+    {% if current_user.is_admin %}
+        <li>
+            <a
+                class="dropdown-item"
+                href="{{ url_for('admin_dashboard') }}"
+            >
+                <i class="bi bi-bar-chart-line"></i>
+                Admin Analytics
+            </a>
+        </li>
+    {% endif %}
 
-                                </ul>
+    <li>
+        <hr class="dropdown-divider">
+    </li>
+
+    <li>
+        <a
+            class="dropdown-item logout-link"
+            href="{{ url_for('logout') }}"
+        >
+            <i class="bi bi-box-arrow-right"></i>
+            Log out
+        </a>
+    </li>
+
+</ul>
 
                             </li>
 
